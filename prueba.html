@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Codificador/Decodificador</title>
+    <style>
+        body { 
+            font-family: 'Comic Sans MS', cursive, sans-serif; 
+            padding: 20px; 
+            background-color: #ffe6f0; 
+            color: #333;
+        }
+        input, textarea, button { 
+            padding: 10px; 
+            margin: 5px 0; 
+            width: 100%; 
+            box-sizing: border-box; 
+            border-radius: 8px;
+            border: 1px solid #ff99cc;
+        }
+        button { 
+            cursor: pointer; 
+            background: linear-gradient(90deg, #ff99cc, #ff66b2); 
+            color: white; 
+            font-weight: bold; 
+            transition: 0.3s;
+        }
+        button:hover {
+            background: linear-gradient(90deg, #ff66b2, #ff3399);
+        }
+        #resultado {
+            margin-top: 10px; 
+            padding: 10px; 
+            background-color: #fff0f5; 
+            border-radius: 10px; 
+            min-height: 30px;
+            font-weight: bold;
+            color: #ff3399;
+        }
+        .descripcion { 
+            margin-top: 30px; 
+            background: linear-gradient(145deg, #ffe6f0, #ffb3d9); 
+            padding: 20px; 
+            border-radius: 15px; 
+            box-shadow: 0 4px 10px rgba(255, 0, 150, 0.2);
+            font-size: 1.05em;
+            line-height: 1.5em;
+            color: #660033;
+        }
+        .descripcion span { 
+            color: #ff0066; 
+            font-weight: bold; 
+        }
+        .descripcion .emoji { font-size: 1.3em; }
+    </style>
+</head>
+<body>
+    <h2>Codificador / Decodificador</h2>
+
+    <label for="mensaje">Escribe el mensaje a codificar o los números a decodificar:</label>
+    <textarea id="mensaje" rows="3"></textarea>
+
+    <button onclick="procesar()">Procesar ✨</button>
+    <button onclick="copiar()">Copiar Resultado 📋</button>
+
+    <h3>Resultado:</h3>
+    <div id="resultado"></div>
+
+    <div class="descripcion">
+        💖 Esta web está creada por <span>Fernando</span>, un chico muy muy listo 😎.<br><br>
+        🌸 Funciona de la siguiente manera: tú pones arriba lo que quieras, por ejemplo: 
+        <span>"hola bebesita"</span> 💌, y le das a <span>Procesar</span> ✨.<br><br>
+        🔢 Esto pasará por una serie de cálculos en una ecuación que he denominado: 
+        <span>"ecuación Fernando"</span> 🧠 y se convertirá en un patrón de números.<br><br>
+        🕵️‍♂️ Para saber qué dicen esos números, solo tienes que ponerlos otra vez en el sitio y 
+        darle a <span>Procesar</span> ✨, y esto los convierte en letras. Así tenemos un 
+        <span>lenguaje secreto</span> 🔒.<br><br>
+        💗 ¡Pásatelo bien, beibi! 🌈💖
+    </div>
+
+    <script>
+        function codificar(mensaje){
+            mensaje = mensaje.toUpperCase();
+            let resultado = [];
+            for(let letra of mensaje){
+                if(letra === " "){
+                    resultado.push(0); // espacio
+                } else if(letra >= "A" && letra <= "Z"){
+                    let n = letra.charCodeAt(0) - 65 + 1;
+                    let codificado = 0.8 * Math.pow(n, 1.5) + 1;
+                    resultado.push(Math.round(codificado));
+                }
+            }
+            return resultado;
+        }
+
+        function decodificar(codigos){
+            let resultado = "";
+            for(let i = 0; i < codigos.length; i++){
+                let num = codigos[i];
+                if(num === 0){
+                    resultado += " ";
+                } else {
+                    let valor = Math.pow((num - 1)/0.8, 2/3);
+                    let letra_num = Math.round(valor);
+                    if(letra_num >= 1 && letra_num <= 26){
+                        resultado += String.fromCharCode(64 + letra_num);
+                    } else {
+                        resultado += "?";
+                    }
+                }
+            }
+            return resultado;
+        }
+
+        function procesar(){
+            const entrada = document.getElementById("mensaje").value.trim();
+            let salida = "";
+
+            if(/^[0-9\s]+$/.test(entrada) && entrada !== ""){
+                const codigos = entrada.replace(/  /g," 0 ").split(" ").map(x => parseInt(x));
+                salida = decodificar(codigos);
+            } else {
+                const codigos = codificar(entrada);
+                salida = codigos.join(" ");
+            }
+
+            document.getElementById("resultado").innerText = salida;
+        }
+
+        function copiar(){
+            const texto = document.getElementById("resultado").innerText;
+            navigator.clipboard.writeText(texto);
+        }
+    </script>
+</body>
+</html>
