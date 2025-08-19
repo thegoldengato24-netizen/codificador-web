@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>✨ Codificador Secreto Fernando ✨</title>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Comic+Neue:wght@400;700&family=Roboto:wght@400;700&display=swap');
+
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Roboto', sans-serif;
+        transition: all 0.5s;
+        overflow-x: hidden;
+    }
+
+    /* Estilos generales */
+    h1, h2, h3 {
+        text-align: center;
+        font-family: 'Pacifico', cursive;
+        margin: 10px;
+    }
+
+    textarea {
+        width: 90%;
+        max-width: 600px;
+        margin: 10px auto;
+        display: block;
+        padding: 15px;
+        border-radius: 12px;
+        border: 2px solid;
+        font-size: 1em;
+        box-shadow: 3px 3px 10px rgba(0,0,0,0.1);
+        resize: none;
+    }
+
+    button {
+        display: block;
+        margin: 10px auto;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 15px;
+        font-size: 1.1em;
+        cursor: pointer;
+        font-weight: bold;
+        box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+        transition: all 0.3s ease;
+    }
+
+    button:hover {
+        transform: scale(1.05);
+        box-shadow: 4px 4px 15px rgba(0,0,0,0.3);
+    }
+
+    #resultado {
+        margin: 20px auto;
+        width: 90%;
+        max-width: 600px;
+        padding: 15px;
+        border-radius: 15px;
+        font-size: 1.3em;
+        text-align: center;
+        word-wrap: break-word;
+        box-shadow: 3px 3px 15px rgba(0,0,0,0.1);
+        transition: all 0.5s;
+    }
+
+    .descripcion {
+        margin: 30px auto;
+        width: 90%;
+        max-width: 650px;
+        padding: 20px;
+        border-radius: 20px;
+        box-shadow: 5px 5px 20px rgba(0,0,0,0.15);
+        font-size: 1em;
+        line-height: 1.6;
+        position: relative;
+        overflow: hidden;
+        text-align: justify;
+        font-family: 'Comic Neue', sans-serif;
+        transition: all 0.5s;
+    }
+
+    .descripcion::before,
+    .descripcion::after {
+        position: absolute;
+        font-size: 1.5em;
+        animation: mover 12s linear infinite;
+    }
+
+    .descripcion::before { top: 10px; left: -200px; }
+    .descripcion::after { bottom: 10px; right: -200px; }
+
+    @keyframes mover {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(100vw); }
+    }
+
+    /* Animaciones de título */
+    h1 {
+        font-size: 3em;
+        animation: brillar 3s infinite alternate;
+    }
+
+    @keyframes brillar {
+        0% { text-shadow: 2px 2px #ff99cc, 0 0 10px #ff66aa; }
+        100% { text-shadow: 4px 4px #ff66aa, 0 0 25px #ff3399; }
+    }
+
+    /* Estilos por tema */
+    body.rosa { background: linear-gradient(120deg, #ffe0f5, #ffcce0); color: #b91c7a; }
+    body.rosa textarea { border-color: #ff99cc; }
+    body.rosa button { background: linear-gradient(90deg, #ff99cc, #ff66aa); color: #fff; }
+    body.rosa #resultado { background: linear-gradient(135deg, #ffd6e7, #ffb6d2); color: #b91c7a; }
+    body.rosa .descripcion::before { content: "💖✨🎀🌸💌"; }
+    body.rosa .descripcion::after { content: "🌟💫💖💕🎀"; }
+
+    body.azul { background: linear-gradient(120deg, #cceeff, #99ddff); color: #1a237e; }
+    body.azul textarea { border-color: #66bbff; }
+    body.azul button { background: linear-gradient(90deg, #66bbff, #3399ff); color: #fff; }
+    body.azul #resultado { background: linear-gradient(135deg, #99ddff, #66bbff); color: #1a237e; }
+    body.azul .descripcion::before { content: "🚀🌊🎮🛸⚡"; }
+    body.azul .descripcion::after { content: "🎯🕹️🎉🎵🌟"; }
+
+    body.verde { background: linear-gradient(120deg, #e0ffe0, #ccffcc); color: #2e7d32; }
+    body.verde textarea { border-color: #66cc66; }
+    body.verde button { background: linear-gradient(90deg, #66cc66, #33aa33); color: #fff; }
+    body.verde #resultado { background: linear-gradient(135deg, #ccffcc, #99ff99); color: #2e7d32; }
+    body.verde .descripcion::before { content: "🌿🍀🪴🌱🍃"; }
+    body.verde .descripcion::after { content: "🌳🍂🌾🍏🍐"; }
+
+    /* Selector de tema flotante */
+    .selector-tema {
+        position: fixed;
+        top: 10px;
+        right: 10px;
+        display: flex;
+        gap: 10px;
+        z-index: 1000;
+    }
+    .selector-tema button { width: 40px; height: 40px; padding: 0; border-radius: 50%; }
+</style>
+</head>
+<body class="rosa">
+<h1>✨ Codificador Secreto ✨</h1>
+<h2>Creado por Fernando 💖</h2>
+
+<div class="selector-tema">
+    <button style="background:#ff66aa" onclick="cambiarTema('rosa')" title="Rosa 💖"></button>
+    <button style="background:#3399ff" onclick="cambiarTema('azul')" title="Azul 🌊"></button>
+    <button style="background:#33aa33" onclick="cambiarTema('verde')" title="Verde 🌿"></button>
+</div>
+
+<textarea id="mensaje" rows="4" placeholder="Escribe tu mensaje aquí..."></textarea>
+<button onclick="procesar()">Procesar 🔢💫</button>
+<button onclick="copiar()">Copiar Resultado 📋💖</button>
+
+<div id="resultado">Aquí aparecerá el resultado ✨</div>
+
+<div class="descripcion">
+Esta web está creada por Fernando, un chico muy muy listo. 💖✨<br><br>
+Funciona así: escribes algo, por ejemplo "hola bebesita", y das a procesar. 🔢💌<br><br>
+La "ecuación Fernando" lo convierte en números. Para decodificar, introduces esos números y procesas de nuevo. 🕵️‍♂️💫<br><br>
+¡Así tenemos un lenguaje secreto! 🎉🤫💖💫
+</div>
+
+<script>
+function codificar(mensaje){
+    mensaje = mensaje.toUpperCase();
+    let resultado = [];
+    for(let letra of mensaje){
+        if(letra === " "){
+            resultado.push(0);
+        } else if(letra >= "A" && letra <= "Z"){
+            let n = letra.charCodeAt(0) - 65 + 1;
+            let codificado = 0.8 * Math.pow(n, 1.5) + 1;
+            resultado.push(Math.round(codificado));
+        }
+    }
+    return resultado;
+}
+
+function decodificar(codigos){
+    let resultado = "";
+    for(let num of codigos){
+        if(num === 0){
+            resultado += " ";
+        } else {
+            let valor = Math.pow((num - 1)/0.8, 2/3);
+            let letra_num = Math.round(valor);
+            if(letra_num >= 1 && letra_num <= 26){
+                resultado += String.fromCharCode(64 + letra_num);
+            } else {
+                resultado += "?";
+            }
+        }
+    }
+    return resultado;
+}
+
+function procesar(){
+    const entrada = document.getElementById("mensaje").value.trim();
+    let salida = "";
+    if(/^[0-9\s]+$/.test(entrada) && entrada !== ""){
+        const codigos = entrada.replace(/  /g," 0 ").split(" ").map(x => parseInt(x));
+        salida = decodificar(codigos);
+    } else {
+        const codigos = codificar(entrada);
+        salida = codigos.join(" ");
+    }
+    document.getElementById("resultado").innerText = salida;
+}
+
+function copiar(){
+    const texto = document.getElementById("resultado").innerText;
+    navigator.clipboard.writeText(texto);
+    alert("¡Resultado copiado! 🎉💖");
+}
+
+// Cambiar tema
+function cambiarTema(tema){
+    document.body.className = tema;
+    localStorage.setItem('temaFernando', tema);
+}
+
+// Mantener tema al recargar
+window.onload = () => {
+    const tema = localStorage.getItem('temaFernando');
+    if(tema) document.body.className = tema;
+};
+</script>
+</body>
+</html>
